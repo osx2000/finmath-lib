@@ -411,10 +411,26 @@ public class RandomBivariate implements RandomBivariateInterface {
         return data;
     }
 
+    @Override
+    public RandomVariableInterface getRow(int i) {
+        return new RandomVariable(filtrationTime,data.getRow(i));
+    }
+
+    @Override
+    public RandomVariableInterface getColumn(int i) {
+        return new RandomVariable(filtrationTime,data.getColumn(i));
+    }
+
     public RandomBivariate(double filtrationTime, RealMatrix rm)
     {
         this.filtrationTime = filtrationTime;
         this.data = rm;
+    }
+
+    public RandomBivariate(RandomBivariate rm)
+    {
+        this.filtrationTime = rm.getFiltrationTime();
+        this.data = rm.getRealMatrix().copy();
     }
 
     public RandomBivariate(double filtrationTime, List<RandomVariableInterface> vectors, Boolean columns)
@@ -431,7 +447,7 @@ public class RandomBivariate implements RandomBivariateInterface {
             if(columns) {
                 rm.setColumn(ii,rv.getRealizations());
             } else {
-                rm.setRow(ii,rv.getRealizations());
+                rm.setRow(ii, rv.getRealizations());
             }
 
             ii++;

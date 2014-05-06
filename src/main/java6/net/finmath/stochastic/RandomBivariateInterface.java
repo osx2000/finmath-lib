@@ -16,4 +16,8 @@ public interface RandomBivariateInterface extends RandomNullaryOperationInterfac
 
     RealMatrix  getRealMatrix();
 
+    RandomVariableInterface getRow(int i);
+
+    RandomVariableInterface getColumn(int i);
+
 }
