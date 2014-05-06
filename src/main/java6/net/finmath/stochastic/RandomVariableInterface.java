@@ -29,7 +29,7 @@ package net.finmath.stochastic;
  * @author Christian Fries
  * @version 1.3
  */
-public interface RandomVariableInterface {
+public interface RandomVariableInterface extends RandomNullaryOperationInterface<RandomVariableInterface>, RandomUnaryOperationInterface<RandomVariableInterface>{
 
 	@Deprecated
 	RandomVariableInterface getMutableCopy();
@@ -42,12 +42,7 @@ public interface RandomVariableInterface {
 	 */
 	public boolean equals(RandomVariableInterface randomVariable);
 
-	/**
-	 * Returns the filtration time.
-	 * 
-	 * @return The filtration time.
-	 */
-    double getFiltrationTime();
+
 
 	/**
 	 * Evaluate at a given path or state.
@@ -285,178 +280,7 @@ public interface RandomVariableInterface {
     RandomVariableInterface apply(org.apache.commons.math3.analysis.UnivariateFunction function);
     
     
-    /**
-     * Applies x &rarr; min(x,cap) to this random variable.
-     * @param cap The cap.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface cap(double cap);
 
-    /**
-     * Applies x &rarr; max(x,floor) to this random variable.
-     * @param floor The floor.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface floor(double floor);
-
-    /**
-     * Applies x &rarr; x + value to this random variable.
-     * @param value The value to add.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface add(double value);
-
-    /**
-     * Applies x &rarr; x - value to this random variable.
-     * @param value The value to subtract.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface sub(double value);
-
-    /**
-     * Applies x &rarr; x * value to this random variable.
-     * @param value The value to multiply.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface mult(double value);
-
-    /**
-     * Applies x &rarr; x / value to this random variable.
-     * @param value The value to divide.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface div(double value);
-
-    /**
-     * Applies x &rarr; pow(x,exponent) to this random variable.
-     * @param exponent The exponent.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface pow(double exponent);
-
-    /**
-     * Applies x &rarr; x * x to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface squared();
-
-    /**
-     * Applies x &rarr; sqrt(x) to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface sqrt();
-
-    /**
-     * Applies x &rarr; exp(x) to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface exp();
-
-    /**
-     * Applies x &rarr; log(x) to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface log();
-
-    /**
-     * Applies x &rarr; sin(x) to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface sin();
-
-    /**
-     * Applies x &rarr; cos(x) to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface cos();
-
-    /**
-     * Applies x &rarr; x+randomVariable to this random variable.
-     * @param randomVariable A random variable (compatible with this random variable).
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface add(RandomVariableInterface randomVariable);
-
-    /**
-     * Applies x &rarr; x-randomVariable to this random variable.
-     * @param randomVariable A random variable (compatible with this random variable).
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface sub(RandomVariableInterface randomVariable);
-
-    /**
-     * Applies x &rarr; x*randomVariable to this random variable.
-     * @param randomVariable A random variable (compatible with this random variable).
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface mult(RandomVariableInterface randomVariable);
-
-    /**
-     * Applies x &rarr; x/randomVariable to this random variable.
-     * @param randomVariable A random variable (compatible with this random variable).
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface div(RandomVariableInterface randomVariable);
-
-    /**
-     * Applies x &rarr; min(x,cap) to this random variable.
-     * @param cap The cap. A random variable (compatible with this random variable).
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface cap(RandomVariableInterface cap);
-
-    /**
-     * Applies x &rarr; max(x,floor) to this random variable.
-     * @param floor The floor. A random variable (compatible with this random variable).
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface floor(RandomVariableInterface floor);
-
-    /**
-     * Applies x &rarr; x * (1.0 + rate * periodLength) to this random variable.
-     * @param rate The accruing rate. A random variable (compatible with this random variable).
-     * @param periodLength The period length
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface accrue(RandomVariableInterface rate, double periodLength);
-
-    /**
-     * Applies x &rarr; x / (1.0 + rate * periodLength) to this random variable.
-     * @param rate The discounting rate. A random variable (compatible with this random variable).
-     * @param periodLength The period length
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface discount(RandomVariableInterface rate, double periodLength);
-
-    /**
-     * Applies x &rarr; (trigger &ge; 0 ? valueIfTriggerNonNegative : valueIfTriggerNegative)
-     * @param trigger The trigger. A random variable (compatible with this random variable).
-     * @param valueIfTriggerNonNegative The value used if the trigger is greater or equal 0
-     * @param valueIfTriggerNegative The value used if the trigger is less than 0
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface barrier(RandomVariableInterface trigger, RandomVariableInterface valueIfTriggerNonNegative, RandomVariableInterface valueIfTriggerNegative);
-
-    /**
-     * Applies x &rarr; (trigger &ge; 0 ? valueIfTriggerNonNegative : valueIfTriggerNegative)
-     * @param trigger The trigger. A random variable (compatible with this random variable).
-     * @param valueIfTriggerNonNegative The value used if the trigger is greater or equal 0
-     * @param valueIfTriggerNegative The value used if the trigger is less than 0
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface barrier(RandomVariableInterface trigger, RandomVariableInterface valueIfTriggerNonNegative, double valueIfTriggerNegative);
-
-    /**
-     * Applies x &rarr; 1/x to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface invert();
-
-    /**
-     * Applies x &rarr; Math.abs(x), i.e. x &rarr; |x| to this random variable.
-     * @return New random variable with the result of the function.
-     */
-    RandomVariableInterface abs();
 
     /**
      * Applies x &rarr; x + factor1 * factor2

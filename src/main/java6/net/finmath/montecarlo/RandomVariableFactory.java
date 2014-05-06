@@ -23,3 +23,5 @@ public class RandomVariableFactory extends AbstractRandomVariableFactory {
         return new RandomVariable(time, values);
     }
 }
+
+
